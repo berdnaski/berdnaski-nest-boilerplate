@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { UserResponseDto } from '../auth/dto/user-response.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 
-import { UserResponseDto } from 'src/modules/auth/dto/user-response.dto';
+import { UserResponseDto } from 'src/modules/users/dto/user-response.dto';
 import { EmailAlreadyRegisteredException } from 'src/shared/exceptions/email-already-registered.exception';
 import { IUserRepository } from '../users/domain/user.repository';
 import { PasswordHasher } from 'src/shared/security/password-hasher';
