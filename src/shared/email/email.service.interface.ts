@@ -1,3 +1,9 @@
+export interface SendEmailPayload {
+  to: string;
+  subject: string;
+  html: string;
+}
+
 export abstract class IEmailService {
   abstract sendEmail(params: {
     to: string;

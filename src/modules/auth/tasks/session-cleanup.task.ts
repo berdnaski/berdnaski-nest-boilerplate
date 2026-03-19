@@ -1,31 +1,22 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import { PrismaService } from "src/shared/database/prisma.service";
+
+import { InjectQueue } from "@nestjs/bullmq";
+import { Queue } from "bullmq";
+import { QueueName, JobName } from "src/shared/infrastructure/queue/queue.constants";
 
 @Injectable()
 export class SessionCleanupTask {
     private readonly logger = new Logger(SessionCleanupTask.name);
 
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(
+        @InjectQueue(QueueName.LONG_RUNNING)
+        private readonly queue: Queue
+    ) { }
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async handleCron() {
-        this.logger.log('Iniciando limpeza de sessões expiradas...');
-
-        try {
-            const result = await this.prisma.refreshToken.deleteMany({
-                where: {
-                    expiresAt: {
-                        lt: new Date(),
-                    },
-                },
-            });
-
-            if (result.count > 0) {
-                this.logger.log(`Sessões expiradas removidas: ${result.count}`);
-            }
-        } catch (error) {
-            this.logger.error('Erro ao limpar sessões expiradas:', error);
-        }
+        this.logger.log('Agendando limpeza de sessões expiradas na fila LONG_RUNNING...');
+        await this.queue.add(JobName.CLEANUP_SESSIONS, {});
     }
 }
