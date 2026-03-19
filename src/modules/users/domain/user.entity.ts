@@ -6,8 +6,9 @@ export class User {
     email: string;
     password: string;
     role: UserRole;
-    isActive: boolean;
+    avatarUrl: string | null;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt: Date | null;
 }
 

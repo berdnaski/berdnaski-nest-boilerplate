@@ -15,8 +15,8 @@ export class UserResponseDto {
     @ApiProperty()
     role: UserRole;
 
-    @ApiProperty()
-    isActive: boolean;
+    @ApiProperty({ required: false, nullable: true })
+    avatarUrl: string | null;
 
     @ApiProperty()
     createdAt: Date;
@@ -30,7 +30,7 @@ export class UserResponseDto {
             name: user.name,
             email: user.email,
             role: user.role,
-            isActive: user.isActive,
+            avatarUrl: user.avatarUrl || null,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         };

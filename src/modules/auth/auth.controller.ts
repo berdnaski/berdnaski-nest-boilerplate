@@ -6,10 +6,19 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { UserResponseDto } from '../users/dto/user-response.dto';
 
+import { ForgotPasswordUseCase } from '../users/application/forgot-password.usecase';
+import { ResetPasswordUseCase } from '../users/application/reset-password.usecase';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+    constructor(
+        private readonly authService: AuthService,
+        private readonly forgotPasswordUseCase: ForgotPasswordUseCase,
+        private readonly resetPasswordUseCase: ResetPasswordUseCase,
+    ) { }
 
     @Post('register')
     @ApiOperation({ summary: 'Registrar um novo usuário' })
@@ -31,5 +40,21 @@ export class AuthController {
     @ApiOperation({ summary: 'Renovar access token' })
     refresh(@Body() dto: RefreshDto) {
         return this.authService.refresh(dto);
+    }
+
+    @Post('forgot-password')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: 'Solicitar link de recuperação de senha' })
+    async forgotPassword(@Body() dto: ForgotPasswordDto) {
+        await this.forgotPasswordUseCase.execute(dto.email);
+        return { message: 'Se o e-mail existir, um link de recuperação foi enviado.' };
+    }
+
+    @Post('reset-password')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: 'Redefinir senha usando token' })
+    async resetPassword(@Body() dto: ResetPasswordDto) {
+        await this.resetPasswordUseCase.execute(dto.token, dto.password);
+        return { message: 'Senha redefinida com sucesso.' };
     }
 }
