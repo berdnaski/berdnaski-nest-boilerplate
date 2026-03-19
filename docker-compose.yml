@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: berdnaski-nest-boilerplate-db
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: boilerplate
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
