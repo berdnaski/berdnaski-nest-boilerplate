@@ -1,98 +1,92 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Berdnaski NestJS Boilerplate 🚀
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Um boilerplate **Premium**, intuitivo e escalável para aplicações NestJS, construído com as melhores práticas que utilizo no meu dia a dia como desenvolvedor. Focado em performance, arquitetura limpa e produtividade.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🤵 Sobre o Autor
+Este projeto foi desenvolvido por **Erick Berdnaski**. Se este boilerplate te ajudou e você deseja retribuir, estou aceitando contribuições para o meu **casamento**! ❤️
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **LinkedIn**: [Erick Berdnaski](https://www.linkedin.com/in/erick-berdnaski/)
+- **PIX para contribuição**: `(34) 9 97677943`
 
-## Project setup
+---
 
-```bash
-$ pnpm install
+## 🛠️ Tecnologias & Features
+
+- **NestJS**: Framework Node.js robusto.
+- **Prisma ORM**: Manipulação de banco de dados com tipagem total.
+- **PostgreSQL**: Banco de dados relacional (Docker Ready).
+- **Redis & BullMQ**: Gerenciamento de filas profissional com separação por prioridade (`CORE` e `LONG_RUNNING`).
+- **BullBoard Dashboard**: Visualização das filas em tempo real em `/admin/queues`.
+- **Cloudflare R2 / S3**: Serviço de Storage para uploads de arquivos desacoplado.
+- **JWT Auth**: Sistema de Login com Access e Refresh Tokens.
+- **Hexagonal / Clean Architecture**: Estrutura baseada em `UseCases`, `Domain` e `Infra`.
+- **Global Exception Filter**: Tratamento de erros padronizado em inglês.
+- **Swagger UI**: Documentação interativa da API em `/api`.
+
+---
+
+## 🏗️ Estrutura do Projeto
+
+```text
+src/
+  modules/          # Módulos de domínio (Auth, Users, etc)
+    auth/           # Lógica de autenticação e tokens
+    users/          # Gestão de usuários e perfis
+  shared/           # Recursos compartilhados
+    database/       # Configuração Prisma
+    infrastructure/ # Filas, Storage e serviços externos
+    security/       # Hasher de senhas e JWT
+    exceptions/     # Filtros e exceções customizadas
 ```
 
-## Compile and run the project
+---
 
+## 🚀 Como começar
+
+### 1. Pré-requisitos
+- Node.js (v18+)
+- Docker e Docker Compose
+- pnpm (recomendado) ou npm
+
+### 2. Instalação
 ```bash
-# development
-$ pnpm run start
+# Clone o repositório
+git clone https://github.com/berdnaski/berdnaski-nest-boilerplate.git
 
-# watch mode
-$ pnpm run start:dev
+# Instale as dependências
+pnpm install
 
-# production mode
-$ pnpm run start:prod
+# Configure as variáveis de ambiente
+cp .env.example .env
 ```
 
-## Run tests
-
+### 3. Suba a infraestrutura e o banco
 ```bash
-# unit tests
-$ pnpm run test
+# Sobe PostgreSQL e Redis
+docker-compose up -d
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+# Rode as migrations do Prisma
+npx prisma migrate dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 4. Inicie a aplicação
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Desenvolvimento
+pnpm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## ⚙️ Variáveis de Ambiente Necessárias
+Não esqueça de configurar seu arquivo `.env` com:
+- `DATABASE_URL`
+- `REDIS_HOST`, `REDIS_PORT`
+- `JWT_SECRET`
+- `CLOUDFLARE_R2_ACCESS_KEY`, `CLOUDFLARE_R2_SECRET_KEY`
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 📄 Licença
+Este projeto é livre para uso pessoal e comercial. Se for legal para você, considere deixar uma ⭐ no repositório!
