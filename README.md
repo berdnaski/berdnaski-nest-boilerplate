@@ -9,7 +9,6 @@ Este projeto foi desenvolvido por **Erick Berdnaski**. Se este boilerplate te aj
 
 - **LinkedIn**: [Erick Berdnaski](https://www.linkedin.com/in/erick-berdnaski/)
 - **PIX para contribuição**: `(34) 9 97677943`  
-<br />
 <img src="https://github.com/user-attachments/assets/fd039913-0f03-460e-9727-ade8b4ebfe4f" width="200" alt="PIX QR Code" />
 
 ---
