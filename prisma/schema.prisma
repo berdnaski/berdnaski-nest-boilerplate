@@ -15,14 +15,16 @@ model User {
   id       String  @id @default(uuid())
   name     String
   email    String  @unique
-  password String
-  role     Role    @default(USER)
-  isActive Boolean @default(true)
+  password  String
+  role      Role    @default(USER)
+  avatarUrl String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
 
-  refreshTokens RefreshToken[]
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
 }
@@ -38,4 +40,16 @@ model RefreshToken {
   updatedAt DateTime @updatedAt
 
   @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
 }
