@@ -8,7 +8,9 @@ Um boilerplate **Premium**, intuitivo e escalável para aplicações NestJS, con
 Este projeto foi desenvolvido por **Erick Berdnaski**. Se este boilerplate te ajudou e você deseja retribuir, estou aceitando contribuições para o meu **casamento**! ❤️
 
 - **LinkedIn**: [Erick Berdnaski](https://www.linkedin.com/in/erick-berdnaski/)
-- **PIX para contribuição**: `(34) 9 97677943`
+- **PIX para contribuição**: `(34) 9 97677943`  
+<br />
+<img src="https://github.com/user-attachments/assets/fd039913-0f03-460e-9727-ade8b4ebfe4f" width="200" alt="PIX QR Code" />
 
 ---
 
