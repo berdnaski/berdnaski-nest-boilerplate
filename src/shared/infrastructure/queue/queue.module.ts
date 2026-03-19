@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Module, forwardRef } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullBoardModule } from '@bull-board/nestjs';
@@ -8,11 +8,15 @@ import { QueueName } from './queue.constants';
 import { CoreProcessor } from './processors/core.processor';
 import { LongRunningProcessor } from './processors/long-running.processor';
 import { DatabaseModule } from '../../database/database.module';
+import { EmailModule } from '../../email/email.module';
+import { UsersModule } from '../../../modules/users/users.module';
 
 @Global()
 @Module({
     imports: [
         DatabaseModule,
+        EmailModule,
+        forwardRef(() => UsersModule),
         BullModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
@@ -21,11 +25,6 @@ import { DatabaseModule } from '../../database/database.module';
                     host: config.getOrThrow<string>('REDIS_HOST'),
                     port: config.getOrThrow<number>('REDIS_PORT'),
                     password: config.get<string>('REDIS_PASSWORD') || undefined,
-                },
-                defaultJobOptions: {
-                    attempts: 3,
-                    backoff: { type: 'exponential', delay: 1000 },
-                    removeOnComplete: true,
                 },
             }),
         }),
@@ -39,7 +38,8 @@ import { DatabaseModule } from '../../database/database.module';
                 defaultJobOptions: {
                     attempts: 5,
                     backoff: { type: 'exponential', delay: 2000 },
-                    removeOnComplete: true,
+                    removeOnComplete: { count: 50 },
+                    removeOnFail: { count: 100 },
                 },
             },
             {
@@ -48,6 +48,7 @@ import { DatabaseModule } from '../../database/database.module';
                     attempts: 1,
                     backoff: { type: 'fixed', delay: 5000 },
                     removeOnComplete: { count: 100 },
+                    removeOnFail: { count: 500 },
                 },
             },
         ),

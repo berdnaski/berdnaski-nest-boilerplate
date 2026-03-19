@@ -3,14 +3,17 @@ import { Job } from 'bullmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { IEmailService, SendEmailPayload } from '../../../email/email.service.interface';
 import { QueueName, JobName } from '../queue.constants';
-import { ProcessAvatarPayload } from '../../../../modules/users/domain/user.repository';
+import { IUserRepository, ProcessAvatarPayload } from '../../../../modules/users/domain/user.repository';
 
 @Injectable()
 @Processor(QueueName.CORE)
 export class CoreProcessor extends WorkerHost {
     private readonly logger = new Logger(CoreProcessor.name);
 
-    constructor(private readonly emailService: IEmailService) {
+    constructor(
+        private readonly emailService: IEmailService,
+        private readonly userRepository: IUserRepository,
+    ) {
         super();
     }
 
@@ -26,7 +29,12 @@ export class CoreProcessor extends WorkerHost {
 
             case JobName.PROCESS_AVATAR: {
                 const data = job.data as ProcessAvatarPayload;
-                this.logger.log(`Vinculando/Processando avatar para usuário: ${data.userId}`);
+                this.logger.log(`Atualizando avatar no banco para usuário: ${data.userId}`);
+                
+                await this.userRepository.update(data.userId, {
+                    avatarUrl: data.avatarUrl
+                });
+                
                 break;
             }
 
