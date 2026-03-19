@@ -21,7 +21,8 @@ export class TokenService {
         const accessToken = await this.generateAccessToken(userId, email, role);
 
         const expiresAt = new Date();
-        expiresAt.setDate(expiresAt.getDate() + 7);
+        const days = Number(process.env.REFRESH_EXPIRES_IN_DAYS || 7);
+        expiresAt.setDate(expiresAt.getDate() + days);
 
         const session = await this.prisma.refreshToken.create({
             data: {
